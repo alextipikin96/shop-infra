@@ -9,25 +9,56 @@ export class ProductServiceStack extends Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const lambdaFunction = new lambda.Function(this, "GetProductsListHandler", {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      memorySize: 1024,
-      timeout: cdk.Duration.seconds(5),
-      handler: "handler.getProductsList",
-      code: lambda.Code.fromAsset(path.join(__dirname, "lambdas/getProductsList")),
-    });
-
-    const api = new apigateway.RestApi(this, "GetProductsListApi", {
-      restApiName: "Get Products List Service",
-      description: "This service returns a list of products.",
-    });
-
-    const getProductsListIntegration = new apigateway.LambdaIntegration(
-      lambdaFunction,
+    // Lambda functions
+    const getProductsListFunction = new lambda.Function(
+      this,
+      "GetProductsListHandler",
+      {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        memorySize: 1024,
+        timeout: cdk.Duration.seconds(5),
+        handler: "getProductsList/handler.getProductsList",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "lambdas"),
+        ),
+      },
     );
 
-    const productsResource = api.root.addResource("products");
+    const getProductByIdFunction = new lambda.Function(
+      this,
+      "GetProductByIdHandler",
+      {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        memorySize: 1024,
+        timeout: cdk.Duration.seconds(5),
+        handler: "getProductById/handler.getProductById",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "lambdas"),
+        ),
+      },
+    );
 
+    // API Gateway
+    const api = new apigateway.RestApi(this, "ProductServiceApi", {
+      restApiName: "Product Service",
+      description: "This service provides product management functionality.",
+    });
+
+
+    // Integrations
+    const getProductsListIntegration = new apigateway.LambdaIntegration(
+      getProductsListFunction,
+    );
+
+    const getProductByIdIntegration = new apigateway.LambdaIntegration(
+      getProductByIdFunction,
+    );
+
+    // API Resources and Methods
+    const productsResource = api.root.addResource("products");
     productsResource.addMethod("GET", getProductsListIntegration);
+
+    const productIdResource = productsResource.addResource("{productId}");
+    productIdResource.addMethod("GET", getProductByIdIntegration);
   }
 }

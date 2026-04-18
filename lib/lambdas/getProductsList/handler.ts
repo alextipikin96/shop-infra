@@ -1,4 +1,4 @@
-import { products } from "./data";
+import { products } from "../shared/data";
 
 export async function getProductsList() {
   return {
