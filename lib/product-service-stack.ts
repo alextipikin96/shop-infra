@@ -19,7 +19,7 @@ export class ProductServiceStack extends Stack {
         timeout: cdk.Duration.seconds(5),
         handler: "getProductsList/handler.getProductsList",
         code: lambda.Code.fromAsset(
-          path.join(__dirname, "lambdas"),
+          path.join(__dirname, "../dist/lambdas/getProductsList"),
         ),
       },
     );
@@ -33,7 +33,7 @@ export class ProductServiceStack extends Stack {
         timeout: cdk.Duration.seconds(5),
         handler: "getProductById/handler.getProductById",
         code: lambda.Code.fromAsset(
-          path.join(__dirname, "lambdas"),
+          path.join(__dirname, "../dist/lambdas/getProductById"),
         ),
       },
     );
