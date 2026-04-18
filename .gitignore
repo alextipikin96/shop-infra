@@ -1,6 +1,9 @@
 *.js
-!jest.config.js
 *.d.ts
+*.js.map
+dist/
+build
+!jest.config.js
 node_modules
 .DS_Store
 
