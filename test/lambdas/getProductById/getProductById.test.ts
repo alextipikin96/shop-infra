@@ -1,5 +1,5 @@
 import { getProductById } from "../../../lib/lambdas/getProductById/handler";
-import { products } from "../../../lib/lambdas/shared/data";
+import { products } from "../../../mocks/data";
 
 describe('getProductById', () => {
   it('should return product by id', async () => {

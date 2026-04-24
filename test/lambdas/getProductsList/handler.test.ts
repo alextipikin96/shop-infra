@@ -1,5 +1,5 @@
 import { getProductsList } from "../../../lib/lambdas/getProductsList/handler";
-import { products } from "../../../lib/lambdas/shared/data";
+import { products } from "../../../mocks/data";
 
 describe('getProductsList', () => {
   it('should return all products', async () => {
