@@ -10,9 +10,6 @@ const stockTableName = process.env.STOCK_TABLE || "Stock";
 
 export const createProductHandler: Handler = async (event: any) => {
   try {
-    // Log the incoming event for debugging purposes
-    console.log("EVENT:", JSON.stringify(event));
-
     // Unify the body parsing to handle both string and object formats
     let body;
     if (typeof event.body === "string") {
@@ -22,8 +19,6 @@ export const createProductHandler: Handler = async (event: any) => {
     } else {
       body = event;
     }
-
-    console.log("BODY:", JSON.stringify(body));
 
     // Validation of required fields
     const { title, description, price, count } = body;
