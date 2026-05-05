@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { Stack, StackProps } from "aws-cdk-lib";
-import { ProductService } from "./product-service";
+import { ProductService } from "./services/product-service";
 
 export class ProductServiceStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {

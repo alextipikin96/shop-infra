@@ -1,6 +1,6 @@
 import { Stack, type StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { DeploymentService } from "./deployment-service";
+import { DeploymentService } from "./services/deployment-service";
 
 export class DeployWebAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {

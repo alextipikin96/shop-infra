@@ -23,13 +23,18 @@ export class ProductService extends Construct {
     });
 
     // Lambda functions
+
+    const sharedLambdaProps = {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      memorySize: 1024,
+      timeout: cdk.Duration.seconds(5),
+    };
+
     const getProductsListLambda = new lambda.Function(
       this,
       "GetProductsListHandler",
       {
-        runtime: lambda.Runtime.NODEJS_20_X,
-        memorySize: 1024,
-        timeout: cdk.Duration.seconds(5),
+        ...sharedLambdaProps,
         handler: "getProductsList/handler.getProductsList",
         code: lambda.Code.fromAsset(
           path.join(__dirname, "../../dist/lambdas/getProductsList"),
@@ -45,9 +50,7 @@ export class ProductService extends Construct {
       this,
       "GetProductByIdHandler",
       {
-        runtime: lambda.Runtime.NODEJS_20_X,
-        memorySize: 1024,
-        timeout: cdk.Duration.seconds(5),
+        ...sharedLambdaProps,
         handler: "getProductById/handler.getProductById",
         code: lambda.Code.fromAsset(
           path.join(__dirname, "../../dist/lambdas/getProductById"),

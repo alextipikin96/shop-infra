@@ -2,9 +2,11 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    getProductsList: "./lib/lambdas/getProductsList/handler.ts",
-    getProductById: "./lib/lambdas/getProductById/handler.ts",
-    createProduct: "./lib/lambdas/createProduct/handler.ts",
+    getProductsList: "./lib/lambdas/getProductsList.ts",
+    getProductById: "./lib/lambdas/getProductById.ts",
+    createProduct: "./lib/lambdas/createProduct.ts",
+    importFileParser: "./lib/lambdas/importFileParser.ts",
+    importProductsFile: "./lib/lambdas/importProductsFile.ts",
   },
   target: "node",
   mode: "production",
