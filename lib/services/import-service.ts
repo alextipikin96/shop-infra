@@ -21,9 +21,11 @@ export class ImportProduct extends Construct {
             aws_s3.HttpMethods.GET,
             aws_s3.HttpMethods.PUT,
             aws_s3.HttpMethods.POST,
+            aws_s3.HttpMethods.HEAD,
           ],
           allowedOrigins: ["*"],
           allowedHeaders: ["*"],
+          exposedHeaders: ["ETag"],
         },
       ],
     });
@@ -64,6 +66,20 @@ export class ImportProduct extends Construct {
       },
     );
 
+    // API Gateway Authorizer
+    const basicAuthorizer = new apigateway.TokenAuthorizer(
+      this,
+      "BasicAuthorizer",
+      {
+        handler: lambda.Function.fromFunctionArn(
+          this,
+          "BasicAuthorizerHandler",
+          cdk.Fn.importValue("BasicAuthorizerLambdaArn"),
+        ),
+        identitySource: apigateway.IdentitySource.header("Authorization"),
+      },
+    );
+
     // S3 Event Notification for Lambda-parser
     this.bucket.addEventNotification(
       aws_s3.EventType.OBJECT_CREATED,
@@ -79,12 +95,20 @@ export class ImportProduct extends Construct {
     const api = new apigateway.RestApi(this, "ImportServiceApi", {
       restApiName: "Import Service",
       description: "API for importing products from CSV files.",
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: ["*"],
+      },
     });
 
     const importResource = api.root.addResource("import");
     importResource.addMethod(
       "GET",
       new apigateway.LambdaIntegration(importProductsFileLambda),
+      {
+        authorizer: basicAuthorizer,
+      },
     );
   }
 }

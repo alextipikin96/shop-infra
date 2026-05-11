@@ -4,8 +4,14 @@ import * as cdk from "aws-cdk-lib";
 import { DeployWebAppStack } from "../lib/deploy-web-app-stack";
 import { ProductServiceStack } from "../lib/product-service-stack";
 import { ImportProductStack } from "../lib/import-product-stack";
+import { AuthorizationServiceStack } from "../lib/authorization-service-stack";
 
 const app = new cdk.App();
 new DeployWebAppStack(app, "DeployWebAppStack");
 new ProductServiceStack(app, "ProductServiceStack");
-new ImportProductStack(app, "ImportProductStack");
+const authorizationServiceStack = new AuthorizationServiceStack(
+  app,
+  "AuthorizationServiceStack",
+);
+const importProductStack = new ImportProductStack(app, "ImportProductStack");
+importProductStack.addDependency(authorizationServiceStack);

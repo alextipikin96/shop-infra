@@ -6,6 +6,7 @@ build
 !jest.config.js
 node_modules
 .DS_Store
+.env
 
 # CDK asset staging directory
 .cdk.staging
