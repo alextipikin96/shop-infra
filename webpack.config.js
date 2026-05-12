@@ -7,6 +7,7 @@ module.exports = {
     createProduct: "./lib/lambdas/createProduct.ts",
     importFileParser: "./lib/lambdas/importFileParser.ts",
     importProductsFile: "./lib/lambdas/importProductsFile.ts",
+    catalogBatchProcess: "./lib/lambdas/catalogBatchProcess.ts",
   },
   target: "node",
   mode: "production",
